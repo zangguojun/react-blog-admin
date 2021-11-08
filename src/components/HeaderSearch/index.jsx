@@ -39,7 +39,6 @@ const HeaderSearch = (props) => {
       className={classNames(className, styles.headerSearch)}
       onClick={() => {
         setSearchMode(true);
-
         if (searchMode && inputRef.current) {
           inputRef.current.focus();
         }

@@ -1,13 +1,14 @@
 import { Space } from 'antd';
 import { HomeOutlined } from '@ant-design/icons';
 import React from 'react';
-import { useModel, SelectLang } from 'umi';
-import Avatar from './AvatarDropdown';
+import { useModel } from 'umi';
+import Avatar from '../AvatarDropdown';
 import HeaderSearch from '../HeaderSearch';
 import styles from './index.less';
 
 const GlobalHeaderRight = () => {
   const { initialState } = useModel('@@initialState');
+  console.log('🚀 ~ GlobalHeaderRight ~ initialState', initialState);
 
   if (!initialState || !initialState.settings) {
     return null;
@@ -26,7 +27,7 @@ const GlobalHeaderRight = () => {
         className={`${styles.action} ${styles.search}`}
         placeholder="搜索"
         options={[]}
-        onSearch={value => {
+        onSearch={(value) => {
           console.log('input', value);
         }}
       />
@@ -39,7 +40,6 @@ const GlobalHeaderRight = () => {
         <HomeOutlined />
       </span>
       <Avatar />
-      <SelectLang className={styles.action} />
     </Space>
   );
 };
