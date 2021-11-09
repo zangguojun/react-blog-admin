@@ -116,43 +116,31 @@ export default {
     },
   ],
   'POST /api/login/account': async (req, res) => {
-    const { password, username, type } = req.body;
+    const { password, email } = req.body;
     await waitTime(2000);
 
-    if (password === 'ant.design' && username === 'admin') {
+    if (password === 'Luo123456+++' && email === 'buchiyu') {
       res.send({
-        status: 'ok',
-        type,
-        currentAuthority: 'admin',
+        success: true,
+        data: { currentAuthority: 'admin' }
       });
       access = 'admin';
       return;
     }
 
-    if (password === 'ant.design' && username === 'user') {
+    if (password === 'ant.design' && email === 'user') {
       res.send({
-        status: 'ok',
-        type,
-        currentAuthority: 'user',
+        success: true,
+        data: { currentAuthority: 'user' }
       });
       access = 'user';
       return;
     }
 
-    if (type === 'mobile') {
-      res.send({
-        status: 'ok',
-        type,
-        currentAuthority: 'admin',
-      });
-      access = 'admin';
-      return;
-    }
-
     res.send({
-      status: 'error',
-      type,
-      currentAuthority: 'guest',
+      success: false,
+      data: { currentAuthority: 'guest' },
+      errorMessage: '用户名或密码错误'
     });
     access = 'guest';
   },

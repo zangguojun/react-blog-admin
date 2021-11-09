@@ -4,8 +4,7 @@
     "title": "Ant Design Pro",
     "version": "1.0.0"
   },
-  "servers": [
-    {
+  "servers": [{
       "url": "http://localhost:8000/"
     },
     {
@@ -48,16 +47,14 @@
         "description": "发送验证码",
         "operationId": "getFakeCaptcha",
         "tags": ["login"],
-        "parameters": [
-          {
-            "name": "phone",
-            "in": "query",
-            "description": "手机号",
-            "schema": {
-              "type": "string"
-            }
+        "parameters": [{
+          "name": "phone",
+          "in": "query",
+          "description": "手机号",
+          "schema": {
+            "type": "string"
           }
-        ],
+        }],
         "responses": {
           "200": {
             "description": "Success",
@@ -169,8 +166,7 @@
         "tags": ["rule"],
         "description": "获取规则列表",
         "operationId": "rule",
-        "parameters": [
-          {
+        "parameters": [{
             "name": "current",
             "in": "query",
             "description": "当前的页码",
@@ -492,7 +488,7 @@
       "LoginParams": {
         "type": "object",
         "properties": {
-          "username": {
+          "email": {
             "type": "string"
           },
           "password": {
@@ -500,9 +496,6 @@
           },
           "autoLogin": {
             "type": "boolean"
-          },
-          "type": {
-            "type": "string"
           }
         }
       },
@@ -560,7 +553,9 @@
             "type": "string",
             "format": "any"
           },
-          "key": { "type": "string" },
+          "key": {
+            "type": "string"
+          },
           "read": {
             "type": "boolean"
           },

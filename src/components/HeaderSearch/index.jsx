@@ -15,14 +15,12 @@ const HeaderSearch = (props) => {
     defaultVisible,
     visible,
     defaultValue,
-    value,
-    onChange
   } = props;
   const inputRef = useRef(null);
 
   const [value, setValue] = useMergedState(defaultValue, {
-    value: value,
-    onChange: onChange,
+    value: props.value,
+    onChange: props.onChange,
   });
 
   const [searchMode, setSearchMode] = useMergedState(defaultVisible ?? false, {

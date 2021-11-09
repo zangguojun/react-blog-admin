@@ -1,58 +1,50 @@
-import {
-  LockOutlined,
-  MailOutlined
-} from '@ant-design/icons';
+import { LockOutlined, MailOutlined } from '@ant-design/icons';
 import { Alert, message } from 'antd';
 import React, { useState } from 'react';
 import { ProFormCheckbox, ProFormText, LoginForm } from '@ant-design/pro-form';
 import { history, useModel } from 'umi';
 import Footer from '@/components/Footer';
-import { login } from '@/services/user';
+import { login } from '@/services/user/login';
+
 import styles from './index.less';
 
-const LoginMessage = ({ content }) => (
+const LoginMessage: React.FC<{
+  content: string;
+}> = ({ content }) => (
   <Alert
     style={{
       marginBottom: 24,
     }}
     message={content}
     type="error"
-    showIcon
+    showIcon={false}
   />
 );
 
 const Login = () => {
-  const { initialState, setInitialState } = useModel('@@initialState');
-  const [userLoginState, setUserLoginState] = useState({});
-
-  const fetchUserInfo = async () => {
-    const userInfo = await initialState?.fetchUserInfo?.();
-
-    if (userInfo) {
-      await setInitialState((s) => ({ ...s, currentUser: userInfo }));
-    }
-  };
+  const [userLoginState, setUserLoginState] = useState<USER.LoginResult>();
+  const { setInitialState } = useModel('@@initialState');
 
   const handleSubmit = async (values) => {
     try {
       const res = await login(values);
       if (res.success) {
         message.success('登录成功！');
-        await fetchUserInfo();
+        await setInitialState((s) => ({
+          ...s,
+          currentUser: res.data,
+        }));
         if (!history) return;
         const { query } = history.location;
-        const { redirect } = query;
+        const { redirect } = query as { redirect: string };
         history.push(redirect || '/');
         return;
       }
-      console.log(msg);
-      setUserLoginState(msg);
+      setUserLoginState(res);
     } catch (error) {
-      const { errorCode, errorMessage } = error
-      message.error(`登录失败，${errorCode} ${errorMessage}`);
+      message.error('登录失败，请重试！');
     }
   };
-
 
   return (
     <div className={styles.container}>
@@ -65,7 +57,9 @@ const Login = () => {
             autoLogin: true,
           }}
           actions={[]}
-          onFinish={async (values) => await handleSubmit(values)}
+          onFinish={async (values) => {
+            await handleSubmit(values as USER.LoginParams);
+          }}
         >
           {userLoginState?.errorMessage && <LoginMessage content={userLoginState?.errorMessage} />}
           <ProFormText
@@ -80,10 +74,10 @@ const Login = () => {
                 required: true,
                 message: '请输入邮箱！',
               },
-              // {
-              //   pattern: /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/,
-              //   message: '邮箱格式错误！',
-              // },
+              {
+                pattern: /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/,
+                message: '邮箱格式错误！',
+              },
             ]}
           />
           <ProFormText.Password
@@ -98,10 +92,10 @@ const Login = () => {
                 required: true,
                 message: '请输入密码！',
               },
-              // {
-              //   pattern: /^(?!([a-zA-Z]+|\d+)$)[a-zA-Z\d]{6,20}$/,
-              //   message: '密码长度为8-32',
-              // },
+              {
+                pattern: /^(?!([a-zA-Z]+|\d+)$)[a-zA-Z\d]{6,20}$/,
+                message: '密码长度为8-32',
+              },
             ]}
           />
           <div

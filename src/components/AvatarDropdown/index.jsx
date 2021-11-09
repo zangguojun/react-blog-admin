@@ -3,8 +3,8 @@ import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons
 import { Avatar, Menu, Spin } from 'antd';
 import { history, useModel } from 'umi';
 import { stringify } from 'querystring';
-import HeaderDropdown from '../HeaderDropdown';
-import styles from './index.less';
+import HeaderDropdown from '@/components/HeaderDropdown';
+import styles from '@/components/RightContent/index.less';
 import { outLogin } from '@/services/ant-design-pro/api';
 
 /**
@@ -26,21 +26,18 @@ const loginOut = async () => {
 };
 
 const AvatarDropdown = ({ menu }) => {
-  const { initialState, setInitialState } = useModel('@@initialState');
-  const onMenuClick = useCallback(
-    (event) => {
-      const { key } = event;
+  const { initialState: { currentUser }, setInitialState } = useModel('@@initialState');
+  const onMenuClick = useCallback((event) => {
+    const { key } = event;
 
-      if (key === 'logout') {
-        setInitialState((s) => ({ ...s, currentUser: undefined }));
-        loginOut();
-        return;
-      }
+    if (key === 'logout') {
+      setInitialState((s) => ({ ...s, currentUser: undefined }));
+      loginOut();
+      return;
+    }
 
-      history.push(`/account/${key}`);
-    },
-    [setInitialState],
-  );
+    history.push(`/account/${key}`);
+  }, [setInitialState]);
   const loading = (
     <span className={`${styles.action} ${styles.account}`}>
       <Spin
@@ -53,32 +50,27 @@ const AvatarDropdown = ({ menu }) => {
     </span>
   );
 
-  if (!initialState) {
-    return loading;
-  }
 
-  const { currentUser } = initialState;
-
-  if (!currentUser || !currentUser.name) {
+  if (!currentUser?.name) {
     return loading;
   }
 
   const menuHeaderDropdown = (
     <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
       {menu && (
-        <Menu.Item key="center">
-          <UserOutlined />
-          个人中心
-        </Menu.Item>
-      )}
-      {menu && (
-        <Menu.Item key="settings">
-          <SettingOutlined />
-          个人设置
-        </Menu.Item>
-      )}
-      {menu && <Menu.Divider />}
+        <>
+          <Menu.Item key="center">
+            <UserOutlined />
+            个人中心
+          </Menu.Item>
+          <Menu.Item key="settings">
+            <SettingOutlined />
+            个人设置
+          </Menu.Item>
+          <Menu.Divider />
+        </>
 
+      )}
       <Menu.Item key="logout">
         <LogoutOutlined />
         退出登录
