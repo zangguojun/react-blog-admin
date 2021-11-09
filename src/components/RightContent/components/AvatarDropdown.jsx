@@ -4,16 +4,15 @@ import { Avatar, Menu, Spin } from 'antd';
 import { history, useModel } from 'umi';
 import { stringify } from 'querystring';
 import HeaderDropdown from '@/components/HeaderDropdown';
-import styles from '@/components/RightContent/index.less';
-import { outLogin } from '@/services/ant-design-pro/api';
+import { outLogin } from '@/services/user';
+import styles from '../index.less';
 
-/**
- * 退出登录，并且将当前的 url 保存
- */
+
 const loginOut = async () => {
   await outLogin();
   const { query = {}, pathname } = history.location;
-  const { redirect } = query; // Note: There may be security issues, please note
+  // 安全问题
+  const { redirect } = query;
 
   if (window.location.pathname !== '/user/login' && !redirect) {
     history.replace({

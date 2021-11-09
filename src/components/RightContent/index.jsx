@@ -2,7 +2,7 @@ import { Space } from 'antd';
 import { HomeOutlined } from '@ant-design/icons';
 import React from 'react';
 import { useModel } from 'umi';
-import AvatarDropdown from '@/components/AvatarDropdown';
+import AvatarDropdown from '@/components/RightContent/components/AvatarDropdown';
 import HeaderSearch from '@/components/HeaderSearch';
 import Notice from '@/components/Notice';
 import styles from './index.less';

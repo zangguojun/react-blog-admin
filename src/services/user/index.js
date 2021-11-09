@@ -19,3 +19,11 @@ export async function queryCurrentUser(options) {
     ...(options || {}),
   });
 }
+
+/** 退出登录接口 POST /api/login/outLogin */
+export async function outLogin(options) {
+  return request('/api/login/outLogin', {
+    method: 'POST',
+    ...(options || {}),
+  });
+}
