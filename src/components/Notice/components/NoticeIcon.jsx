@@ -3,9 +3,9 @@ import { Badge, Spin, Tabs } from 'antd';
 import useMergedState from 'rc-util/es/hooks/useMergedState';
 import React from 'react';
 import classNames from 'classnames';
-import NoticeList from '@/components/NoticeList';
+import NoticeList from '@/components/Notice/components/NoticeList';
 import HeaderDropdown from '@/components/HeaderDropdown';
-import styles from '@/components/Notice/index.less';
+import styles from '../index.less';
 
 
 const NoticeIcon = (props) => {

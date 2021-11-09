@@ -1,7 +1,7 @@
-import { Avatar, List } from 'antd';
 import React from 'react';
+import { Avatar, List } from 'antd';
 import classNames from 'classnames';
-import styles from './index.less';
+import styles from '../index.less';
 
 const NoticeList = ({
   list = [],

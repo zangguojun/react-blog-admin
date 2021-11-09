@@ -4,7 +4,7 @@ import { groupBy } from 'lodash';
 import moment from 'moment';
 import { useModel, useRequest } from 'umi';
 import { getNotices } from '@/services/ant-design-pro/api';
-import NoticeIcon from '@/components/NoticeIcon';
+import NoticeIcon from '@/components/Notice/components/NoticeIcon';
 import styles from './index.less'
 
 const getNoticeData = (notices) => {
