@@ -49,6 +49,12 @@ export default [
     component: './TableList',
   },
   {
+    name: '文章',
+    icon: 'table',
+    path: '/article',
+    component: './ArticleList',
+  },
+  {
     path: '/',
     redirect: '/welcome',
   },

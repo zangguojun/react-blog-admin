@@ -3,7 +3,7 @@ import { Tag, message } from 'antd';
 import { groupBy } from 'lodash';
 import moment from 'moment';
 import { useModel, useRequest } from 'umi';
-import { getNotices } from '@/services/ant-design-pro/api';
+import { getNotices } from '@/services/notices';
 import NoticeIcon from '@/components/Notice/components/NoticeIcon';
 import styles from './index.less'
 
