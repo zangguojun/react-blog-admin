@@ -419,6 +419,135 @@
       },
       "x-swagger-router-controller": "api"
     },
+    "/api/tag": {
+      "get": {
+        "tags": ["tag"],
+        "description": "获取标签列表",
+        "operationId": "tag",
+        "parameters": [
+          {
+            "name": "current",
+            "in": "query",
+            "description": "当前的页码",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "页面的容量",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TagList"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["article"],
+        "description": "新建文章",
+        "operationId": "addArticle",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArticleListItem"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["article"],
+        "description": "新建文章",
+        "operationId": "updateArticle",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArticleListItem"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["article"],
+        "description": "删除文章",
+        "operationId": "removeArticle",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "x-swagger-router-controller": "api"
+    },
     "/swagger": {
       "x-swagger-pipe": "swagger_raw"
     }
@@ -649,6 +778,41 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ArticleListItem"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "description": "列表的内容总数",
+            "format": "int32"
+          },
+          "success": {
+            "type": "boolean"
+          }
+        }
+      },
+      "TagListItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "TagList": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TagListItem"
             }
           },
           "total": {

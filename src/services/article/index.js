@@ -9,7 +9,7 @@ export async function article(params, options) {
   });
 }
 
-/** 新建规则 PUT /api/article */
+/** 新建文章 PUT /api/article */
 export async function updateArticle(options) {
   return request('/api/article', {
     method: 'PUT',
@@ -17,7 +17,7 @@ export async function updateArticle(options) {
   });
 }
 
-/** 新建规则 POST /api/article */
+/** 新建文章 POST /api/article */
 export async function addArticle(options) {
   return request('/api/article', {
     method: 'POST',
@@ -25,7 +25,7 @@ export async function addArticle(options) {
   });
 }
 
-/** 删除规则 DELETE /api/article */
+/** 删除文章 DELETE /api/article */
 export async function removeArticle(options) {
   return request('/api/article', {
     method: 'DELETE',

@@ -55,6 +55,12 @@ export default [
     component: './ArticleList',
   },
   {
+    name: '标签',
+    icon: 'tag',
+    path: '/tag',
+    component: './TagList',
+  },
+  {
     path: '/',
     redirect: '/welcome',
   },

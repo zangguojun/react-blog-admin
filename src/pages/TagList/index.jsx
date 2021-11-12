@@ -1,17 +1,18 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Drawer, Tag } from 'antd';
+import { Button, message, Select, Drawer, Tag } from 'antd';
 import React, { useState, useRef } from 'react';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import { ModalForm, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import ProDescriptions from '@ant-design/pro-descriptions';
-import { article, addArticle, updateArticle, removeArticle } from '@/services/article';
+import { tag, addTag, updateTag, removeTag } from '@/services/tag';
+import UpdateForm from './components/UpdateForm';
 
 const handleAdd = async (fields) => {
   const hide = message.loading('正在添加');
 
   try {
-    await addArticle({ ...fields });
+    await addTag({ ...fields });
     hide();
     message.success('Added successfully');
     return true;
@@ -27,7 +28,7 @@ const handleRemove = async (selectedRows) => {
   if (!selectedRows) return true;
 
   try {
-    await removeArticle({
+    await removeTag({
       key: selectedRows.map((row) => row.key),
     });
     hide();
@@ -40,7 +41,7 @@ const handleRemove = async (selectedRows) => {
   }
 };
 
-const ArticleList = () => {
+const TagList = () => {
   const [createModalVisible, handleModalVisible] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
   const actionRef = useRef();
@@ -55,78 +56,18 @@ const ArticleList = () => {
       valueType: 'indexBorder',
     },
     {
-      title: "标题",
-      dataIndex: 'title',
-      render: (val, record) => {
-        return (
-          <Button
-            type="link"
-            onClick={() => {
-              window.open(record.href)
-            }}
-          >
-            {val}
-          </Button>
-        );
-      },
+      title: "标签名",
+      dataIndex: 'name',
     },
     {
-      title: '分类',
-      dataIndex: 'category',
-      valueType: 'select',
-    },
-    {
-      title: '标签',
-      dataIndex: 'tags',
-      render: (val) => {
-        return val.map(i => <Tag color="cyan" key={i} >{i}</Tag>)
-      }
-    },
-    {
-      title: '更新时间',
-      hideInSearch: true,
-      sorter: true,
-      dataIndex: 'updatedAt',
-      valueType: 'dateTime',
-    },
-    {
-      title: '创建时间',
-      sorter: true,
-      dataIndex: 'createdAt',
-      valueType: 'dateTime',
-    },
-    {
-      title: '操作',
-      hideInForm: true,
-      dataIndex: 'option',
-      valueType: 'option',
-      render: (_, record) => [
-        <Button
-          key="edit"
-          type="link"
-          onClick={() => {
-            setCurrentRow(record);
-            setShowDetail(true);
-          }}
-        >
-          快速编辑
-        </Button>,
-        <Button
-          key="edit"
-          type="link"
-          onClick={() => {
-            window.open('')
-          }}
-        >
-          编辑
-        </Button>
-      ],
-    },
+      title: '被引用数',
+      dataIndex: 'count',
+    }
   ];
   return (
     <PageContainer>
       <ProTable
-        headerTitle="文章列表"
+        headerTitle="标签列表"
         actionRef={actionRef}
         rowKey="id"
         search={{
@@ -141,10 +82,10 @@ const ArticleList = () => {
             }}
           >
             <PlusOutlined />
-            写文章
+            写标签
           </Button>,
         ]}
-        request={article}
+        request={tag}
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => {
@@ -187,7 +128,7 @@ const ArticleList = () => {
         </FooterToolbar>
       )}
       <ModalForm
-        title="新文章"
+        title="新标签"
         width="400px"
         visible={createModalVisible}
         onVisibleChange={handleModalVisible}
@@ -205,13 +146,12 @@ const ArticleList = () => {
           rules={[
             {
               required: true,
-              message: "文章标题为必填项",
+              message: "标签名为必填项",
             },
           ]}
           width="md"
           name="title"
         />
-        <ProFormTextArea width="md" name="content" />
       </ModalForm>
 
       <Drawer
@@ -237,8 +177,31 @@ const ArticleList = () => {
           />
         )}
       </Drawer>
+      <UpdateForm
+        onSubmit={async (value) => {
+          const success = await handleUpdate(value);
+
+          if (success) {
+            handleUpdateModalVisible(false);
+            setCurrentRow(undefined);
+
+            if (actionRef.current) {
+              actionRef.current.reload();
+            }
+          }
+        }}
+        onCancel={() => {
+          handleUpdateModalVisible(false);
+
+          if (!showDetail) {
+            setCurrentRow(undefined);
+          }
+        }}
+        updateModalVisible={updateModalVisible}
+        values={currentRow || {}}
+      />
     </PageContainer>
   );
 };
 
-export default ArticleList;
+export default TagList;
