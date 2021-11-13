@@ -16,8 +16,8 @@ const genList = (current, pageSize) => {
         "整理",
         "React"
       ],
-      updatedAt: moment().format('YYYY-MM-DD'),
-      createdAt: moment().format('YYYY-MM-DD'),
+      updatedAt: moment(),
+      createdAt: moment(),
     });
   }
 
@@ -27,7 +27,7 @@ const genList = (current, pageSize) => {
 
 let articleListDataSource = genList(1, 100);
 
-function getRule(req, res, u) {
+function getArticle(req, res, u) {
   let realUrl = u;
 
   if (!realUrl || Object.prototype.toString.call(realUrl) !== '[object String]') {
@@ -97,7 +97,7 @@ function getRule(req, res, u) {
   return res.json(result);
 }
 
-function postRule(req, res, u, b) {
+function postArticle(req, res, u, b) {
   let realUrl = u;
 
   if (!realUrl || Object.prototype.toString.call(realUrl) !== '[object String]') {
@@ -105,18 +105,18 @@ function postRule(req, res, u, b) {
   }
 
   const body = (b && b.body) || req.body;
-  const { method, name, desc, key } = body;
+  const { name, desc, key } = body;
 
-  switch (method) {
+  switch (req.method) {
     /* eslint no-case-declarations:0 */
-    case 'delete':
+    case 'DELETE':
       articleListDataSource = articleListDataSource.filter((item) => key.indexOf(item.key) === -1);
       break;
 
-    case 'post':
+    case 'POST':
       (() => {
         const i = Math.ceil(Math.random() * 10000);
-        const newRule = {
+        const newArticle = {
           key: articleListDataSource.length,
           href: 'https://ant.design',
           avatar: [
@@ -132,24 +132,24 @@ function postRule(req, res, u, b) {
           createdAt: moment().day(-1).format('YYYY-MM-DD'),
           progress: Math.ceil(Math.random() * 100),
         };
-        articleListDataSource.unshift(newRule);
-        return res.json(newRule);
+        articleListDataSource.unshift(newArticle);
+        return res.json(newArticle);
       })();
 
       return;
 
-    case 'update':
+    case 'PUT':
       (() => {
-        let newRule = {};
+        let newArticle = {};
         articleListDataSource = articleListDataSource.map((item) => {
           if (item.key === key) {
-            newRule = { ...item, desc, name };
+            newArticle = { ...item, desc, name };
             return { ...item, desc, name };
           }
 
           return item;
         });
-        return res.json(newRule);
+        return res.json(newArticle);
       })();
 
       return;
@@ -168,6 +168,8 @@ function postRule(req, res, u, b) {
 }
 
 export default {
-  'GET /api/article': getRule,
-  'POST /api/article': postRule,
+  'GET /api/article': getArticle,
+  'POST /api/article': postArticle,
+  'DELETE /api/rule': postArticle,
+  'PUT /api/rule': postArticle,
 };

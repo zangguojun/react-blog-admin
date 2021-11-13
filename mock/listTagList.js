@@ -19,7 +19,7 @@ const genList = (current, pageSize) => {
 
 let tagListDataSource = genList(1, 100);
 
-function getRule(req, res, u) {
+function getTag(req, res, u) {
   let realUrl = u;
 
   if (!realUrl || Object.prototype.toString.call(realUrl) !== '[object String]') {
@@ -89,7 +89,7 @@ function getRule(req, res, u) {
   return res.json(result);
 }
 
-function postRule(req, res, u, b) {
+function postTag(req, res, u, b) {
   let realUrl = u;
 
   if (!realUrl || Object.prototype.toString.call(realUrl) !== '[object String]') {
@@ -97,51 +97,37 @@ function postRule(req, res, u, b) {
   }
 
   const body = (b && b.body) || req.body;
-  const { method, name, desc, key } = body;
+  const { name } = body;
 
-  switch (method) {
+  switch (req.method) {
     /* eslint no-case-declarations:0 */
-    case 'delete':
-      tagListDataSource = tagListDataSource.filter((item) => key.indexOf(item.key) === -1);
+    case 'DELETE':
+      tagListDataSource = tagListDataSource.filter((item) => item.id !== id);
       break;
 
-    case 'post':
+    case 'POST':
       (() => {
-        const i = Math.ceil(Math.random() * 10000);
-        const newRule = {
-          key: tagListDataSource.length,
-          href: 'https://ant.design',
-          avatar: [
-            'https://gw.alipayobjects.com/zos/rmsportal/eeHMaZBwmTvLdIwMfBpg.png',
-            'https://gw.alipayobjects.com/zos/rmsportal/udxAbMEhpwthVVcjLXik.png',
-          ][i % 2],
+        const newTag = {
+          id: tagListDataSource.length,
           name,
-          owner: '曲丽丽',
-          desc,
-          callNo: Math.floor(Math.random() * 1000),
-          status: Math.floor(Math.random() * 10) % 2,
-          updatedAt: moment().format('YYYY-MM-DD'),
-          createdAt: moment().day(-1).format('YYYY-MM-DD'),
-          progress: Math.ceil(Math.random() * 100),
+          count: 0
         };
-        tagListDataSource.unshift(newRule);
-        return res.json(newRule);
+        tagListDataSource.unshift(newTag);
+        return res.json(newTag);
       })();
 
       return;
 
-    case 'update':
+    case 'PUT':
       (() => {
-        let newRule = {};
+        let newTag = {};
         tagListDataSource = tagListDataSource.map((item) => {
-          if (item.key === key) {
-            newRule = { ...item, desc, name };
-            return { ...item, desc, name };
+          if (item.id === id) {
+            return { ...item, name };
           }
-
           return item;
         });
-        return res.json(newRule);
+        return res.json(newTag);
       })();
 
       return;
@@ -160,6 +146,8 @@ function postRule(req, res, u, b) {
 }
 
 export default {
-  'GET /api/tag': getRule,
-  'POST /api/tag': postRule,
+  'GET /api/tag': getTag,
+  'POST /api/tag': postTag,
+  'DELETE /api/rule': postTag,
+  'PUT /api/rule': postTag,
 };

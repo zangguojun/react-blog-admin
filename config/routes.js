@@ -56,7 +56,7 @@ export default [
   },
   {
     name: '标签',
-    icon: 'tag',
+    icon: 'table',
     path: '/tag',
     component: './TagList',
   },

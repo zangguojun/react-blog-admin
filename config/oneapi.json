@@ -466,16 +466,16 @@
         }
       },
       "post": {
-        "tags": ["article"],
-        "description": "新建文章",
-        "operationId": "addArticle",
+        "tags": ["tag"],
+        "description": "新建标签",
+        "operationId": "addTag",
         "responses": {
           "200": {
             "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ArticleListItem"
+                  "$ref": "#/components/schemas/TagListItem"
                 }
               }
             }

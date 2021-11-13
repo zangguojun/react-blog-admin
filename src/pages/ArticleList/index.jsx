@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Drawer, Tag } from 'antd';
+import { Button, message, Drawer, Tag, Space, Select } from 'antd';
 import React, { useState, useRef } from 'react';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
@@ -50,25 +50,36 @@ const ArticleList = () => {
   const columns = [
     {
       title: "ID",
-      hideInSearch: true,
       dataIndex: 'id',
       valueType: 'indexBorder',
+      width: 48,
+      hideInSearch: true,
     },
     {
       title: "标题",
       dataIndex: 'title',
-      render: (val, record) => {
-        return (
-          <Button
-            type="link"
-            onClick={() => {
-              window.open(record.href)
-            }}
-          >
-            {val}
-          </Button>
-        );
+      ellipsis: true,
+      copyable: true,
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: '此项为必填项',
+          },
+        ],
       },
+      // render: (val, record) => {
+      //   return (
+      //     <Button
+      //       type="link"
+      //       onClick={() => {
+      //         window.open(record.href)
+      //       }}
+      //     >
+      //       {val}
+      //     </Button>
+      //   );
+      // },
     },
     {
       title: '分类',
@@ -78,22 +89,52 @@ const ArticleList = () => {
     {
       title: '标签',
       dataIndex: 'tags',
+      renderFormItem: (_, { type, defaultRender, formItemProps, fieldProps, ...rest }, form) => {
+        return defaultRender(_);
+        // return (
+        //   <Select
+        //     {...fieldProps}
+        //     placeholder="请输入test"
+        //   />
+        // );
+      },
       render: (val) => {
-        return val.map(i => <Tag color="cyan" key={i} >{i}</Tag>)
+        return (
+          <Space>
+            {
+              val.map(i => <Tag color="cyan" key={i} >{i}</Tag>)
+            }
+          </Space>
+        )
       }
     },
     {
       title: '更新时间',
-      hideInSearch: true,
-      sorter: true,
       dataIndex: 'updatedAt',
       valueType: 'dateTime',
+      hideInSearch: true,
+      sorter: true,
     },
     {
       title: '创建时间',
-      sorter: true,
       dataIndex: 'createdAt',
       valueType: 'dateTime',
+      hideInSearch: true,
+      sorter: true,
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'createdAt',
+      valueType: 'dateRange',
+      hideInTable: true,
+      search: {
+        transform: (value) => {
+          return {
+            startTime: value[0],
+            endTime: value[1],
+          };
+        },
+      },
     },
     {
       title: '操作',
@@ -127,10 +168,14 @@ const ArticleList = () => {
     <PageContainer>
       <ProTable
         headerTitle="文章列表"
-        actionRef={actionRef}
         rowKey="id"
-        search={{
-          labelWidth: 50,
+        request={article}
+        columns={columns}
+        actionRef={actionRef}
+        rowSelection={{
+          onChange: (_, selectedRows) => {
+            setSelectedRows(selectedRows);
+          },
         }}
         toolBarRender={() => [
           <Button
@@ -144,11 +189,24 @@ const ArticleList = () => {
             写文章
           </Button>,
         ]}
-        request={article}
-        columns={columns}
-        rowSelection={{
-          onChange: (_, selectedRows) => {
-            setSelectedRows(selectedRows);
+        columnsState={{
+          defaultValue: {
+            updatedAt: { show: false }
+          },
+        }}
+        search={{
+          labelWidth: 'auto',
+        }}
+        form={{
+          // 由于配置了 transform，提交的参与与定义的不同这里需要转化一下
+          syncToUrl: (values, type) => {
+            if (type === 'get') {
+              return {
+                ...values,
+                created_at: [values.startTime, values.endTime],
+              };
+            }
+            return values;
           },
         }}
       />

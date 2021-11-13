@@ -32,18 +32,20 @@ const handleRemove = async (selectedRows) => {
       key: selectedRows.map((row) => row.key),
     });
     hide();
-    message.success('Deleted successfully and will refresh soon');
+    message.success('删除成功，正在刷新标签列表');
     return true;
   } catch (error) {
     hide();
-    message.error('Delete failed, please try again');
+    message.error('删除成功，请重试');
     return false;
   }
 };
 
 const TagList = () => {
   const [createModalVisible, handleModalVisible] = useState(false);
+  const [updateModalVisible, handleUpdateModalVisible] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
+
   const actionRef = useRef();
   const [currentRow, setCurrentRow] = useState();
   const [selectedRowsState, setSelectedRows] = useState([]);
@@ -51,9 +53,9 @@ const TagList = () => {
   const columns = [
     {
       title: "ID",
-      hideInSearch: true,
       dataIndex: 'id',
       valueType: 'indexBorder',
+      hideInSearch: true,
     },
     {
       title: "标签名",
@@ -62,16 +64,41 @@ const TagList = () => {
     {
       title: '被引用数',
       dataIndex: 'count',
-    }
+    },
+    {
+      title: '操作',
+      hideInForm: true,
+      dataIndex: 'option',
+      valueType: 'option',
+      render: (_, record) => [
+        <Button
+          key="edit"
+          type="link"
+          onClick={() => {
+            setCurrentRow(record);
+            setShowDetail(true);
+          }}
+        >
+          查看相关文章
+        </Button>,
+      ],
+    },
   ];
   return (
     <PageContainer>
       <ProTable
-        headerTitle="标签列表"
-        actionRef={actionRef}
         rowKey="id"
+        headerTitle="标签列表"
+        request={tag}
+        columns={columns}
+        actionRef={actionRef}
         search={{
-          labelWidth: 50,
+          labelWidth: 'auto',
+        }}
+        rowSelection={{
+          onChange: (_, selectedRows) => {
+            setSelectedRows(selectedRows);
+          },
         }}
         toolBarRender={() => [
           <Button
@@ -82,16 +109,9 @@ const TagList = () => {
             }}
           >
             <PlusOutlined />
-            写标签
+            新标签
           </Button>,
         ]}
-        request={tag}
-        columns={columns}
-        rowSelection={{
-          onChange: (_, selectedRows) => {
-            setSelectedRows(selectedRows);
-          },
-        }}
       />
       {selectedRowsState?.length > 0 && (
         <FooterToolbar
@@ -106,10 +126,6 @@ const TagList = () => {
                 {selectedRowsState.length}
               </a>
               项
-              &nbsp;&nbsp;
-              <span>
-                {selectedRowsState.reduce((pre, item) => pre + item.callNo, 0)}{' '}
-              </span>
             </div>
           }
         >
@@ -122,11 +138,9 @@ const TagList = () => {
           >
             删除
           </Button>
-          <Button type="primary">
-            批准
-          </Button>
         </FooterToolbar>
       )}
+
       <ModalForm
         title="新标签"
         width="400px"
@@ -150,7 +164,7 @@ const TagList = () => {
             },
           ]}
           width="md"
-          name="title"
+          name="name"
         />
       </ModalForm>
 
