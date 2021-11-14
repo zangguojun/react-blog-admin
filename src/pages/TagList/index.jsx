@@ -55,7 +55,6 @@ const TagList = () => {
 
   const columns = [
     {
-      title: "ID",
       dataIndex: 'id',
       hideInSearch: true,
       editable: false,
