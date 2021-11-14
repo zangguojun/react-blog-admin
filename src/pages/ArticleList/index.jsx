@@ -8,22 +8,22 @@ import ProDescriptions from '@ant-design/pro-descriptions';
 import { article, addArticle, updateArticle, removeArticle } from '@/services/article';
 
 const handleAdd = async (fields) => {
-  const hide = message.loading('正在添加');
+  const hide = message.loading('添加中');
 
   try {
     await addArticle({ ...fields });
     hide();
-    message.success('Added successfully');
+    message.success('添加成功');
     return true;
   } catch (error) {
     hide();
-    message.error('Adding failed, please try again!');
+    message.error('添加失败，请重试');
     return false;
   }
 };
 
 const handleRemove = async (selectedRows) => {
-  const hide = message.loading('正在删除');
+  const hide = message.loading('删除中');
   if (!selectedRows) return true;
 
   try {
@@ -31,11 +31,11 @@ const handleRemove = async (selectedRows) => {
       key: selectedRows.map((row) => row.key),
     });
     hide();
-    message.success('Deleted successfully and will refresh soon');
+    message.success('删除成功');
     return true;
   } catch (error) {
     hide();
-    message.error('Delete failed, please try again');
+    message.error('删除失败，请重试');
     return false;
   }
 };

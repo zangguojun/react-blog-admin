@@ -1,20 +1,17 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Select, Drawer, Tag } from 'antd';
+import { Button, message } from 'antd';
 import React, { useState, useRef } from 'react';
-import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
+import { PageContainer } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
-import { ModalForm, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
-import ProDescriptions from '@ant-design/pro-descriptions';
+import { ModalForm, ProFormText } from '@ant-design/pro-form';
 import { tag, addTag, updateTag, removeTag } from '@/services/tag';
-import UpdateForm from './components/UpdateForm';
 
 const handleAdd = async (fields) => {
-  const hide = message.loading('正在添加');
-
+  const hide = message.loading('添加中');
   try {
-    await addTag({ ...fields });
+    await addTag(fields);
     hide();
-    message.success('Added successfully');
+    message.success('添加成功');
     return true;
   } catch (error) {
     hide();
@@ -23,64 +20,78 @@ const handleAdd = async (fields) => {
   }
 };
 
-const handleRemove = async (selectedRows) => {
-  const hide = message.loading('正在删除');
-  if (!selectedRows) return true;
-
+const handleUpdate = async (fields) => {
+  const hide = message.loading('修改中');
   try {
-    await removeTag({
-      key: selectedRows.map((row) => row.key),
-    });
+    await updateTag(fields);
     hide();
-    message.success('删除成功，正在刷新标签列表');
+    message.success('修改成功');
     return true;
   } catch (error) {
     hide();
-    message.error('删除成功，请重试');
+    message.error('修改失败，请重试');
+    return false;
+  }
+};
+
+const handleRemove = async (selectedRows) => {
+  const hide = message.loading('删除中');
+  if (!selectedRows) return true;
+  try {
+    await removeTag(selectedRows);
+    hide();
+    message.success('删除成功');
+    return true;
+  } catch (error) {
+    hide();
+    message.error('删除失败，请重试');
     return false;
   }
 };
 
 const TagList = () => {
   const [createModalVisible, handleModalVisible] = useState(false);
-  const [updateModalVisible, handleUpdateModalVisible] = useState(false);
-  const [showDetail, setShowDetail] = useState(false);
-
   const actionRef = useRef();
-  const [currentRow, setCurrentRow] = useState();
-  const [selectedRowsState, setSelectedRows] = useState([]);
 
   const columns = [
     {
       title: "ID",
       dataIndex: 'id',
-      valueType: 'indexBorder',
       hideInSearch: true,
+      editable: false,
     },
     {
       title: "标签名",
       dataIndex: 'name',
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: '此项为必填项',
+          },
+        ],
+      },
     },
     {
       title: '被引用数',
       dataIndex: 'count',
+      editable: false,
     },
     {
       title: '操作',
       hideInForm: true,
       dataIndex: 'option',
       valueType: 'option',
-      render: (_, record) => [
+      render: (val, record, _, action) => [
         <Button
-          key="edit"
           type="link"
+          key="edit"
           onClick={() => {
-            setCurrentRow(record);
-            setShowDetail(true);
+            action?.startEditable?.(record.id);
           }}
         >
-          查看相关文章
-        </Button>,
+          编辑
+        </Button>
       ],
     },
   ];
@@ -92,13 +103,16 @@ const TagList = () => {
         request={tag}
         columns={columns}
         actionRef={actionRef}
+        editable={{
+          onSave: async (_, data) => {
+            await handleUpdate(data)
+          },
+          onDelete: async (_, data) => {
+            await handleRemove(data)
+          },
+        }}
         search={{
           labelWidth: 'auto',
-        }}
-        rowSelection={{
-          onChange: (_, selectedRows) => {
-            setSelectedRows(selectedRows);
-          },
         }}
         toolBarRender={() => [
           <Button
@@ -113,34 +127,6 @@ const TagList = () => {
           </Button>,
         ]}
       />
-      {selectedRowsState?.length > 0 && (
-        <FooterToolbar
-          extra={
-            <div>
-              选择了
-              <a
-                style={{
-                  fontWeight: 600,
-                }}
-              >
-                {selectedRowsState.length}
-              </a>
-              项
-            </div>
-          }
-        >
-          <Button
-            onClick={async () => {
-              await handleRemove(selectedRowsState);
-              setSelectedRows([]);
-              actionRef.current?.reloadAndRest?.();
-            }}
-          >
-            删除
-          </Button>
-        </FooterToolbar>
-      )}
-
       <ModalForm
         title="新标签"
         width="400px"
@@ -167,53 +153,6 @@ const TagList = () => {
           name="name"
         />
       </ModalForm>
-
-      <Drawer
-        width={600}
-        visible={showDetail}
-        onClose={() => {
-          setCurrentRow(undefined);
-          setShowDetail(false);
-        }}
-        closable={false}
-      >
-        {currentRow?.name && (
-          <ProDescriptions
-            column={2}
-            title={currentRow?.name}
-            request={async () => ({
-              data: currentRow || {},
-            })}
-            params={{
-              id: currentRow?.name,
-            }}
-            columns={columns}
-          />
-        )}
-      </Drawer>
-      <UpdateForm
-        onSubmit={async (value) => {
-          const success = await handleUpdate(value);
-
-          if (success) {
-            handleUpdateModalVisible(false);
-            setCurrentRow(undefined);
-
-            if (actionRef.current) {
-              actionRef.current.reload();
-            }
-          }
-        }}
-        onCancel={() => {
-          handleUpdateModalVisible(false);
-
-          if (!showDetail) {
-            setCurrentRow(undefined);
-          }
-        }}
-        updateModalVisible={updateModalVisible}
-        values={currentRow || {}}
-      />
     </PageContainer>
   );
 };

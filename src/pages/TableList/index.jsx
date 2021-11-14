@@ -15,16 +15,16 @@ import { rule, addRule, updateRule, removeRule } from '@/services/ant-design-pro
  */
 
 const handleAdd = async (fields) => {
-  const hide = message.loading('正在添加');
+  const hide = message.loading('添加中');
 
   try {
     await addRule({ ...fields });
     hide();
-    message.success('Added successfully');
+    message.success('添加成功');
     return true;
   } catch (error) {
     hide();
-    message.error('Adding failed, please try again!');
+    message.error('添加失败，请重试');
     return false;
   }
 };
@@ -36,7 +36,7 @@ const handleAdd = async (fields) => {
  */
 
 const handleUpdate = async (fields) => {
-  const hide = message.loading('Configuring');
+  const hide = message.loading('添加中');
 
   try {
     await updateRule({
@@ -69,11 +69,11 @@ const handleRemove = async (selectedRows) => {
       key: selectedRows.map((row) => row.key),
     });
     hide();
-    message.success('Deleted successfully and will refresh soon');
+    message.success('删除成功');
     return true;
   } catch (error) {
     hide();
-    message.error('Delete failed, please try again');
+    message.error('删除失败，请重试');
     return false;
   }
 };

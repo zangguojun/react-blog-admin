@@ -493,16 +493,16 @@
         }
       },
       "put": {
-        "tags": ["article"],
-        "description": "新建文章",
-        "operationId": "updateArticle",
+        "tags": ["tag"],
+        "description": "更新标签",
+        "operationId": "updateTag",
         "responses": {
           "200": {
             "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ArticleListItem"
+                  "$ref": "#/components/schemas/TagListItem"
                 }
               }
             }
@@ -520,8 +520,8 @@
         }
       },
       "delete": {
-        "tags": ["article"],
-        "description": "删除文章",
+        "tags": ["tag"],
+        "description": "删除标签",
         "operationId": "removeArticle",
         "responses": {
           "200": {

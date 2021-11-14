@@ -97,7 +97,7 @@ function postTag(req, res, u, b) {
   }
 
   const body = (b && b.body) || req.body;
-  const { name } = body;
+  const { id, name } = body;
 
   switch (req.method) {
     /* eslint no-case-declarations:0 */
@@ -123,10 +123,12 @@ function postTag(req, res, u, b) {
         let newTag = {};
         tagListDataSource = tagListDataSource.map((item) => {
           if (item.id === id) {
+            newTag = { ...item, name };
             return { ...item, name };
           }
           return item;
         });
+
         return res.json(newTag);
       })();
 
@@ -148,6 +150,6 @@ function postTag(req, res, u, b) {
 export default {
   'GET /api/tag': getTag,
   'POST /api/tag': postTag,
-  'DELETE /api/rule': postTag,
-  'PUT /api/rule': postTag,
+  'DELETE /api/tag': postTag,
+  'PUT /api/tag': postTag,
 };
