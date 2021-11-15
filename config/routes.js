@@ -55,6 +55,12 @@ export default [
     component: './ChangelogList',
   },
   {
+    path: '/link',
+    name: '友链',
+    icon: 'table',
+    component: './LinkList',
+  },
+  {
     path: '/admin',
     name: '管理页',
     icon: 'crown',
