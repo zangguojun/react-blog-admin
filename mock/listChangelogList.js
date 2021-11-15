@@ -1,24 +1,25 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { parse } from 'url'; // mock tagListDataSource
+import moment from 'moment';
+import { parse } from 'url'; // mock changelogListDataSource
 
 const genList = (current, pageSize) => {
-  const tagListDataSource = [];
+  const changelogListDataSource = [];
   for (let i = 0; i < pageSize; i += 1) {
     const index = (current - 1) * 10 + i;
-    tagListDataSource.push({
+    changelogListDataSource.push({
       id: index,
-      name: 'React 学习笔记',
-      count: 10
+      log: 'React 学习笔记',
+      createdAt: moment(),
     });
   }
 
-  tagListDataSource.reverse();
-  return tagListDataSource;
+  changelogListDataSource.reverse();
+  return changelogListDataSource;
 };
 
-let tagListDataSource = genList(1, 100);
+let changelogListDataSource = genList(1, 100);
 
-function getTag(req, res, u) {
+function getChangelog(req, res, u) {
   let realUrl = u;
 
   if (!realUrl || Object.prototype.toString.call(realUrl) !== '[object String]') {
@@ -27,7 +28,7 @@ function getTag(req, res, u) {
 
   const { current = 1, pageSize = 10 } = req.query;
   const params = parse(realUrl, true).query;
-  let dataSource = [...tagListDataSource].slice((current - 1) * pageSize, current * pageSize);
+  let dataSource = [...changelogListDataSource].slice((current - 1) * pageSize, current * pageSize);
 
   if (params.sorter) {
     const sorter = JSON.parse(params.sorter);
@@ -80,7 +81,7 @@ function getTag(req, res, u) {
 
   const result = {
     data: dataSource,
-    total: tagListDataSource.length,
+    total: changelogListDataSource.length,
     success: true,
     pageSize,
     current: parseInt(`${params.current}`, 10) || 1,
@@ -88,7 +89,7 @@ function getTag(req, res, u) {
   return res.json(result);
 }
 
-function postTag(req, res, u, b) {
+function postChangelog(req, res, u, b) {
   let realUrl = u;
 
   if (!realUrl || Object.prototype.toString.call(realUrl) !== '[object String]') {
@@ -96,39 +97,39 @@ function postTag(req, res, u, b) {
   }
 
   const body = (b && b.body) || req.body;
-  const { id, name } = body;
+  const { id, log } = body;
 
   switch (req.method) {
     /* eslint no-case-declarations:0 */
     case 'DELETE':
-      tagListDataSource = tagListDataSource.filter((item) => item.id !== id);
+      changelogListDataSource = changelogListDataSource.filter((item) => item.id !== id);
       break;
 
     case 'POST':
       (() => {
-        const newTag = {
-          id: tagListDataSource.length,
-          name,
-          count: 0
+        const newChangelog = {
+          id: changelogListDataSource.length,
+          log,
+          createdAt: moment(),
         };
-        tagListDataSource.unshift(newTag);
-        return res.json(newTag);
+        changelogListDataSource.unshift(newChangelog);
+        return res.json(newChangelog);
       })();
 
       return;
 
     case 'PUT':
       (() => {
-        let newTag = {};
-        tagListDataSource = tagListDataSource.map((item) => {
+        let newChangelog = {};
+        changelogListDataSource = changelogListDataSource.map((item) => {
           if (item.id === id) {
-            newTag = { ...item, name };
-            return { ...item, name };
+            newChangelog = { ...item, log };
+            return { ...item, log };
           }
           return item;
         });
 
-        return res.json(newTag);
+        return res.json(newChangelog);
       })();
 
       return;
@@ -138,17 +139,17 @@ function postTag(req, res, u, b) {
   }
 
   const result = {
-    list: tagListDataSource,
+    list: changelogListDataSource,
     pagination: {
-      total: tagListDataSource.length,
+      total: changelogListDataSource.length,
     },
   };
   res.json(result);
 }
 
 export default {
-  'GET /api/tag': getTag,
-  'POST /api/tag': postTag,
-  'DELETE /api/tag': postTag,
-  'PUT /api/tag': postTag,
+  'GET /api/changelog': getChangelog,
+  'POST /api/changelog': postChangelog,
+  'DELETE /api/changelog': postChangelog,
+  'PUT /api/changelog': postChangelog,
 };

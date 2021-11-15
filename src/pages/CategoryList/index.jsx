@@ -4,12 +4,12 @@ import React, { useState, useRef } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import { ModalForm, ProFormText } from '@ant-design/pro-form';
-import { tag, addTag, updateTag, removeTag } from '@/services/tag';
+import { category, addCategory, updateCategory, removeCategory } from '@/services/category';
 
 const handleAdd = async (fields) => {
   const hide = message.loading('添加中');
   try {
-    await addTag(fields);
+    await addCategory(fields);
     hide();
     message.success('添加成功');
     return true;
@@ -23,7 +23,7 @@ const handleAdd = async (fields) => {
 const handleUpdate = async (fields) => {
   const hide = message.loading('修改中');
   try {
-    await updateTag(fields);
+    await updateCategory(fields);
     hide();
     message.success('修改成功');
     return true;
@@ -38,7 +38,7 @@ const handleRemove = async (selectedRows) => {
   const hide = message.loading('删除中');
   if (!selectedRows) return true;
   try {
-    await removeTag(selectedRows);
+    await removeCategory(selectedRows);
     hide();
     message.success('删除成功');
     return true;
@@ -49,7 +49,7 @@ const handleRemove = async (selectedRows) => {
   }
 };
 
-const TagList = () => {
+const CategoryList = () => {
   const [createModalVisible, handleModalVisible] = useState(false);
   const actionRef = useRef();
 
@@ -60,7 +60,7 @@ const TagList = () => {
       editable: false,
     },
     {
-      title: "标签名",
+      title: "分类名",
       dataIndex: 'name',
       formItemProps: {
         rules: [
@@ -98,8 +98,8 @@ const TagList = () => {
     <PageContainer>
       <ProTable
         rowKey="id"
-        headerTitle="标签列表"
-        request={tag}
+        headerTitle="分类列表"
+        request={category}
         columns={columns}
         actionRef={actionRef}
         editable={{
@@ -122,12 +122,12 @@ const TagList = () => {
             }}
           >
             <PlusOutlined />
-            新标签
+            新分类
           </Button>,
         ]}
       />
       <ModalForm
-        title="新标签"
+        title="新分类"
         width="400px"
         visible={createModalVisible}
         onVisibleChange={handleModalVisible}
@@ -145,10 +145,10 @@ const TagList = () => {
           rules={[
             {
               required: true,
-              message: "标签名为必填项",
+              message: "分类名为必填项",
             },
           ]}
-          label="标签名"
+          label="分类名"
           width="md"
           name="name"
         />
@@ -157,4 +157,4 @@ const TagList = () => {
   );
 };
 
-export default TagList;
+export default CategoryList;

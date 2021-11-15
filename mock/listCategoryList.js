@@ -1,24 +1,25 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { parse } from 'url'; // mock tagListDataSource
+import moment from 'moment';
+import { parse } from 'url'; // mock categoryListDataSource
 
 const genList = (current, pageSize) => {
-  const tagListDataSource = [];
+  const categoryListDataSource = [];
   for (let i = 0; i < pageSize; i += 1) {
     const index = (current - 1) * 10 + i;
-    tagListDataSource.push({
+    categoryListDataSource.push({
       id: index,
       name: 'React 学习笔记',
       count: 10
     });
   }
 
-  tagListDataSource.reverse();
-  return tagListDataSource;
+  categoryListDataSource.reverse();
+  return categoryListDataSource;
 };
 
-let tagListDataSource = genList(1, 100);
+let categoryListDataSource = genList(1, 100);
 
-function getTag(req, res, u) {
+function getCategory(req, res, u) {
   let realUrl = u;
 
   if (!realUrl || Object.prototype.toString.call(realUrl) !== '[object String]') {
@@ -27,7 +28,7 @@ function getTag(req, res, u) {
 
   const { current = 1, pageSize = 10 } = req.query;
   const params = parse(realUrl, true).query;
-  let dataSource = [...tagListDataSource].slice((current - 1) * pageSize, current * pageSize);
+  let dataSource = [...categoryListDataSource].slice((current - 1) * pageSize, current * pageSize);
 
   if (params.sorter) {
     const sorter = JSON.parse(params.sorter);
@@ -80,7 +81,7 @@ function getTag(req, res, u) {
 
   const result = {
     data: dataSource,
-    total: tagListDataSource.length,
+    total: categoryListDataSource.length,
     success: true,
     pageSize,
     current: parseInt(`${params.current}`, 10) || 1,
@@ -88,7 +89,7 @@ function getTag(req, res, u) {
   return res.json(result);
 }
 
-function postTag(req, res, u, b) {
+function postCategory(req, res, u, b) {
   let realUrl = u;
 
   if (!realUrl || Object.prototype.toString.call(realUrl) !== '[object String]') {
@@ -101,34 +102,34 @@ function postTag(req, res, u, b) {
   switch (req.method) {
     /* eslint no-case-declarations:0 */
     case 'DELETE':
-      tagListDataSource = tagListDataSource.filter((item) => item.id !== id);
+      categoryListDataSource = categoryListDataSource.filter((item) => item.id !== id);
       break;
 
     case 'POST':
       (() => {
-        const newTag = {
-          id: tagListDataSource.length,
+        const newCategory = {
+          id: categoryListDataSource.length,
           name,
           count: 0
         };
-        tagListDataSource.unshift(newTag);
-        return res.json(newTag);
+        categoryListDataSource.unshift(newCategory);
+        return res.json(newCategory);
       })();
 
       return;
 
     case 'PUT':
       (() => {
-        let newTag = {};
-        tagListDataSource = tagListDataSource.map((item) => {
+        let newCategory = {};
+        categoryListDataSource = categoryListDataSource.map((item) => {
           if (item.id === id) {
-            newTag = { ...item, name };
+            newCategory = { ...item, name };
             return { ...item, name };
           }
           return item;
         });
 
-        return res.json(newTag);
+        return res.json(newCategory);
       })();
 
       return;
@@ -138,17 +139,17 @@ function postTag(req, res, u, b) {
   }
 
   const result = {
-    list: tagListDataSource,
+    list: categoryListDataSource,
     pagination: {
-      total: tagListDataSource.length,
+      total: categoryListDataSource.length,
     },
   };
   res.json(result);
 }
 
 export default {
-  'GET /api/tag': getTag,
-  'POST /api/tag': postTag,
-  'DELETE /api/tag': postTag,
-  'PUT /api/tag': postTag,
+  'GET /api/category': getCategory,
+  'POST /api/category': postCategory,
+  'DELETE /api/category': postCategory,
+  'PUT /api/category': postCategory,
 };

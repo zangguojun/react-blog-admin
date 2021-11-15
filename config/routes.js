@@ -25,6 +25,36 @@ export default [
     component: './Welcome',
   },
   {
+    path: '/list',
+    name: '列表页',
+    icon: 'table',
+    component: './TableList',
+  },
+  {
+    path: '/article',
+    name: '文章',
+    icon: 'table',
+    component: './ArticleList',
+  },
+  {
+    path: '/tag',
+    name: '标签',
+    icon: 'table',
+    component: './TagList',
+  },
+  {
+    path: '/category',
+    name: '分类',
+    icon: 'table',
+    component: './CategoryList',
+  },
+  {
+    path: '/changelog',
+    name: '建站日志',
+    icon: 'table',
+    component: './ChangelogList',
+  },
+  {
     path: '/admin',
     name: '管理页',
     icon: 'crown',
@@ -41,24 +71,6 @@ export default [
         component: './404',
       },
     ],
-  },
-  {
-    name: '列表页',
-    icon: 'table',
-    path: '/list',
-    component: './TableList',
-  },
-  {
-    name: '文章',
-    icon: 'table',
-    path: '/article',
-    component: './ArticleList',
-  },
-  {
-    name: '标签',
-    icon: 'table',
-    path: '/tag',
-    component: './TagList',
   },
   {
     path: '/',
