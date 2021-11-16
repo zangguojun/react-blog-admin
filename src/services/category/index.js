@@ -1,6 +1,3 @@
-// @ts-ignore
-
-/* eslint-disable */
 import { request } from 'umi';
 
 /** 获取分类列表 GET /api/category */
@@ -11,8 +8,8 @@ export async function category(params, options) {
     ...(options || {}),
   });
 }
-/** 新建分类 PUT /api/category */
 
+/** 更新分类 PUT /api/category */
 export async function updateCategory(data, options) {
   return request('/api/category', {
     data,
@@ -20,8 +17,8 @@ export async function updateCategory(data, options) {
     ...(options || {}),
   });
 }
-/** 新建分类 POST /api/category */
 
+/** 新建分类 POST /api/category */
 export async function addCategory(data, options) {
   return request('/api/category', {
     data,
@@ -29,8 +26,8 @@ export async function addCategory(data, options) {
     ...(options || {}),
   });
 }
-/** 删除分类 DELETE /api/category */
 
+/** 删除分类 DELETE /api/category */
 export async function removeCategory(data, options) {
   return request('/api/category', {
     data,

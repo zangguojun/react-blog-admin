@@ -1,6 +1,3 @@
-// @ts-ignore
-
-/* eslint-disable */
 import { request } from 'umi';
 /** Update an existing pet PUT /pet */
 

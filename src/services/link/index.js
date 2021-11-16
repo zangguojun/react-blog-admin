@@ -1,6 +1,3 @@
-// @ts-ignore
-
-/* eslint-disable */
 import { request } from 'umi';
 
 /** 获取友链列表 GET /api/link */
@@ -11,8 +8,8 @@ export async function link(params, options) {
     ...(options || {}),
   });
 }
-/** 新建友链 PUT /api/link */
 
+/** 更新友链 PUT /api/link */
 export async function updateLink(data, options) {
   return request('/api/link', {
     data,
@@ -20,8 +17,8 @@ export async function updateLink(data, options) {
     ...(options || {}),
   });
 }
-/** 新建友链 POST /api/link */
 
+/** 新建友链 POST /api/link */
 export async function addLink(data, options) {
   return request('/api/link', {
     data,
@@ -29,8 +26,8 @@ export async function addLink(data, options) {
     ...(options || {}),
   });
 }
-/** 删除友链 DELETE /api/link */
 
+/** 删除友链 DELETE /api/link */
 export async function removeLink(data, options) {
   return request('/api/link', {
     data,

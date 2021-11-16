@@ -1,6 +1,3 @@
-// @ts-ignore
-
-/* eslint-disable */
 import { request } from 'umi';
 /** Returns pet inventories by status Returns a map of status codes to quantities GET /store/inventory */
 

@@ -1,6 +1,3 @@
-// @ts-ignore
-
-/* eslint-disable */
 import { request } from 'umi';
 
 /** 获取文章列表 GET /api/article */
@@ -11,8 +8,8 @@ export async function article(params, options) {
     ...(options || {}),
   });
 }
-/** 新建文章 PUT /api/article */
 
+/** 更新文章 PUT /api/article */
 export async function updateArticle(data, options) {
   return request('/api/article', {
     data,
@@ -20,8 +17,8 @@ export async function updateArticle(data, options) {
     ...(options || {}),
   });
 }
-/** 新建文章 POST /api/article */
 
+/** 新建文章 POST /api/article */
 export async function addArticle(data, options) {
   return request('/api/article', {
     data,
@@ -29,8 +26,8 @@ export async function addArticle(data, options) {
     ...(options || {}),
   });
 }
-/** 删除文章 DELETE /api/article */
 
+/** 删除文章 DELETE /api/article */
 export async function removeArticle(data, options) {
   return request('/api/article', {
     data,
