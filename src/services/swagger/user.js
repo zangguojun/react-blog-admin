@@ -31,7 +31,7 @@ export async function createUsersWithListInput(body, options) {
 export async function loginUser(params, options) {
   return request('/user/login', {
     method: 'GET',
-    params: { ...params },
+    params,
     ...(options || {}),
   });
 }
@@ -49,7 +49,7 @@ export async function getUserByName(params, options) {
   const { username: param0 } = params;
   return request(`/user/${param0}`, {
     method: 'GET',
-    params: { ...params },
+    params,
     ...(options || {}),
   });
 }
@@ -59,7 +59,7 @@ export async function updateUser(params, body, options) {
   const { username: param0 } = params;
   return request(`/user/${param0}`, {
     method: 'PUT',
-    params: { ...params },
+    params,
     data: body,
     ...(options || {}),
   });
@@ -70,7 +70,7 @@ export async function deleteUser(params, options) {
   const { username: param0 } = params;
   return request(`/user/${param0}`, {
     method: 'DELETE',
-    params: { ...params },
+    params,
     ...(options || {}),
   });
 }

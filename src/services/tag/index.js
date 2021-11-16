@@ -4,7 +4,7 @@ import { request } from 'umi';
 export async function tag(params, options) {
   return request('/api/tag', {
     method: 'GET',
-    params: { ...params },
+    params,
     ...(options || {}),
   });
 }

@@ -28,7 +28,7 @@ export async function addPet(body, options) {
 export async function findPetsByStatus(params, options) {
   return request('/pet/findByStatus', {
     method: 'GET',
-    params: { ...params },
+    params,
     ...(options || {}),
   });
 }
@@ -37,7 +37,7 @@ export async function findPetsByStatus(params, options) {
 export async function findPetsByTags(params, options) {
   return request('/pet/findByTags', {
     method: 'GET',
-    params: { ...params },
+    params,
     ...(options || {}),
   });
 }
@@ -47,7 +47,7 @@ export async function getPetById(params, options) {
   const { petId: param0 } = params;
   return request(`/pet/${param0}`, {
     method: 'GET',
-    params: { ...params },
+    params,
     ...(options || {}),
   });
 }
@@ -68,7 +68,7 @@ export async function updatePetWithForm(params, body, options) {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
-    params: { ...params },
+    params,
     data: formData,
     ...(options || {}),
   });
@@ -79,7 +79,7 @@ export async function deletePet(params, options) {
   const { petId: param0 } = params;
   return request(`/pet/${param0}`, {
     method: 'DELETE',
-    params: { ...params },
+    params,
     ...(options || {}),
   });
 }
@@ -100,7 +100,7 @@ export async function uploadFile(params, body, options) {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
-    params: { ...params },
+    params,
     data: formData,
     ...(options || {}),
   });

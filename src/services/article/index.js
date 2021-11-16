@@ -4,7 +4,7 @@ import { request } from 'umi';
 export async function article(params, options) {
   return request('/api/article', {
     method: 'GET',
-    params: { ...params },
+    params,
     ...(options || {}),
   });
 }

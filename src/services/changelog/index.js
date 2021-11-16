@@ -4,7 +4,7 @@ import { request } from 'umi';
 export async function changelog(params, options) {
   return request('/api/changelog', {
     method: 'GET',
-    params: { ...params },
+    params,
     ...(options || {}),
   });
 }

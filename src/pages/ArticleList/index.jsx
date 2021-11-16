@@ -1,6 +1,6 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, message, Drawer, Tag, Space, Select } from 'antd';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import ProDescriptions from '@ant-design/pro-descriptions';
@@ -96,8 +96,7 @@ const ArticleList = () => {
       title: '分类',
       dataIndex: 'category',
       valueType: 'select',
-      request: category,
-      postData: (...args) => { console.log('~', args) }
+      request: () => category({}, { isFlat: true }),
     },
     {
       title: '标签',

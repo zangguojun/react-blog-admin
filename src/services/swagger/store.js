@@ -22,7 +22,7 @@ export async function getOrderById(params, options) {
   const { orderId: param0 } = params;
   return request(`/store/order/${param0}`, {
     method: 'GET',
-    params: { ...params },
+    params,
     ...(options || {}),
   });
 }
@@ -32,7 +32,7 @@ export async function deleteOrder(params, options) {
   const { orderId: param0 } = params;
   return request(`/store/order/${param0}`, {
     method: 'DELETE',
-    params: { ...params },
+    params,
     ...(options || {}),
   });
 }

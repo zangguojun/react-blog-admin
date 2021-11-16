@@ -4,7 +4,7 @@ import { request } from 'umi';
 export async function link(params, options) {
   return request('/api/link', {
     method: 'GET',
-    params: { ...params },
+    params,
     ...(options || {}),
   });
 }

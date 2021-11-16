@@ -2,11 +2,15 @@ import { request } from 'umi';
 
 /** 获取分类列表 GET /api/category */
 export async function category(params, options) {
+  const { isFlat, ...otherOptions } = options
   return request('/api/category', {
     method: 'GET',
-    params: { ...params },
-    ...(options || {}),
-  });
+    params,
+    ...(otherOptions || {}),
+  }).then(res => {
+    if (isFlat) return res?.data?.map(item => ({ label: item?.name, value: item?.is }))
+    else return res
+  })
 }
 
 /** 更新分类 PUT /api/category */
