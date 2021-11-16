@@ -6,6 +6,14 @@ import routes from './routes';
 
 const { REACT_APP_ENV } = process.env;
 export default defineConfig({
+  base: '/',
+  // devServer: {
+  //   host: '127.0.0.1',
+  //   port: 8000,
+  //   https: true,
+  //   writeToDisk: true,
+  // },
+  devtool: 'eval', //source-map
   hash: true,
   antd: {},
   dva: {
@@ -43,13 +51,9 @@ export default defineConfig({
       requestLibPath: "import { request } from 'umi'",
       // schemaPath: "https://gw.alipayobjects.com/os/antfincdn/M%24jrzTTYJN/oneapi.json"
       schemaPath: join(__dirname, 'oneapi.json'),
-      mock: false,
+      // mock: false,
+      projectName: 'buchiyu',
     },
-    // {
-    //   requestLibPath: "import { request } from 'umi'",
-    //   schemaPath: 'https://gw.alipayobjects.com/os/antfincdn/CA1dOm%2631B/openapi.json',
-    //   projectName: 'swagger',
-    // },
   ],
   nodeModulesTransform: {
     type: 'none',
