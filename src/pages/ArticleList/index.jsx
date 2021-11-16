@@ -215,6 +215,7 @@ const ArticleList = () => {
             type="primary"
             key="primary"
             onClick={() => {
+              window.location.href = '/article-detail'
             }}
           >
             <PlusOutlined />

@@ -6,11 +6,6 @@ const waitTime = (time = 100) => {
   });
 };
 
-async function getFakeCaptcha(req, res) {
-  await waitTime(2000);
-  return res.json('captcha-xxx');
-}
-
 const { ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION } = process.env;
 /**
  * 当前用户的权限，如果为空代表没登录
@@ -165,7 +160,7 @@ export default {
       status: 500,
       error: 'error',
       message: 'error',
-      path: '/base/category/list',
+      path: '/500',
     });
   },
   'GET /api/404': (req, res) => {
@@ -174,7 +169,7 @@ export default {
       status: 404,
       error: 'Not Found',
       message: 'No message available',
-      path: '/base/category/list/2121212',
+      path: '/404',
     });
   },
   'GET /api/403': (req, res) => {
@@ -183,7 +178,7 @@ export default {
       status: 403,
       error: 'Forbidden',
       message: 'Forbidden',
-      path: '/base/category/list',
+      path: '/403',
     });
   },
   'GET /api/401': (req, res) => {
@@ -192,8 +187,11 @@ export default {
       status: 401,
       error: 'Unauthorized',
       message: 'Unauthorized',
-      path: '/base/category/list',
+      path: '/401',
     });
   },
-  'GET  /api/login/captcha': getFakeCaptcha,
+  'GET  /api/login/captcha': async (req, res) => {
+    await waitTime(2000);
+    return res.json('captcha-xxx');
+  },
 };
