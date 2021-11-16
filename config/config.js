@@ -13,7 +13,7 @@ export default defineConfig({
   //   https: true,
   //   writeToDisk: true,
   // },
-  devtool: 'eval', //source-map
+  // devtool: 'eval', //source-map
   hash: true,
   antd: {},
   dva: {

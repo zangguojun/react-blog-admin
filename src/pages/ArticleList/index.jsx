@@ -1,13 +1,13 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, message, Drawer, Tag, Space, Select } from 'antd';
 import React, { useState, useRef, useEffect } from 'react';
-import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
+import { PageContainer } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import { article, addArticle, updateArticle, removeArticle } from '@/services/article';
 import { tag } from '@/services/tag';
 import { category } from '@/services/category';
-
+import { useRequest } from 'umi'
 const handleAdd = async (fields) => {
   const hide = message.loading('添加中');
 
@@ -54,9 +54,20 @@ const handleRemove = async (selectedRows) => {
 };
 
 const ArticleList = () => {
+  const [tagList, setTagList] = useState([]);
+  const [categoryList, setCategoryList] = useState([]);
   const [showDetail, setShowDetail] = useState(false);
-  const actionRef = useRef();
   const [currentRow, setCurrentRow] = useState();
+  const actionRef = useRef();
+
+  useEffect(() => {
+    tag().then(res => {
+      setTagList(res?.data?.map(item => ({ label: item?.name, value: item?.id })))
+    })
+    category().then(res => {
+      setCategoryList(res?.data?.map(item => ({ label: item?.name, value: item?.id })))
+    })
+  }, [])
 
   const columns = [
     {
@@ -96,7 +107,9 @@ const ArticleList = () => {
       title: '分类',
       dataIndex: 'category',
       valueType: 'select',
-      request: () => category({}, { isFlat: true }),
+      fieldProps: {
+        options: categoryList
+      }
     },
     {
       title: '标签',
@@ -110,8 +123,16 @@ const ArticleList = () => {
           </Space>
         )
       },
-      renderFormItem: (_, { type, defaultRender, formItemProps, fieldProps, ...rest }, form) => {
-        return null;
+      renderFormItem: (item, { defaultRender, ...rest }, form) => {
+        return (
+          <Select
+            mode="tags"
+          >
+            {
+              tagList.map(item => <Select.Option key={item.value} value={item.value}>{item.label}</Select.Option>)
+            }
+          </Select>
+        );
       },
     },
     {
