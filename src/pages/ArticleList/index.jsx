@@ -5,6 +5,8 @@ import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import { article, addArticle, updateArticle, removeArticle } from '@/services/article';
+import { tag } from '@/services/tag';
+import { category } from '@/services/category';
 
 const handleAdd = async (fields) => {
   const hide = message.loading('添加中');
@@ -94,19 +96,12 @@ const ArticleList = () => {
       title: '分类',
       dataIndex: 'category',
       valueType: 'select',
+      request: category,
+      postData: (...args) => { console.log('~', args) }
     },
     {
       title: '标签',
       dataIndex: 'tags',
-      renderFormItem: (_, { type, defaultRender, formItemProps, fieldProps, ...rest }, form) => {
-        return defaultRender(_);
-        // return (
-        //   <Select
-        //     {...fieldProps}
-        //     placeholder="请输入test"
-        //   />
-        // );
-      },
       render: (val) => {
         return (
           <Space>
@@ -115,7 +110,10 @@ const ArticleList = () => {
             }
           </Space>
         )
-      }
+      },
+      renderFormItem: (_, { type, defaultRender, formItemProps, fieldProps, ...rest }, form) => {
+        return null;
+      },
     },
     {
       title: '更新时间',
@@ -155,10 +153,8 @@ const ArticleList = () => {
     {
       title: '操作',
       hideInForm: true,
-      hideInDescriptions: true,
-      dataIndex: 'option',
       valueType: 'option',
-      render: (val, record, _, action) => [
+      render: (text, record, _, action) => [
         <a
           key="detail"
           type="link"

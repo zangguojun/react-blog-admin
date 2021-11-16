@@ -97,9 +97,8 @@ const LinkList = () => {
     {
       title: '操作',
       hideInForm: true,
-      dataIndex: 'option',
       valueType: 'option',
-      render: (val, record, _, action) => [
+      render: (text, record, _, action) => [
         <a
           type="link"
           key="edit"
