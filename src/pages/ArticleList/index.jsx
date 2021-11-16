@@ -60,20 +60,19 @@ const ArticleList = () => {
     {
       title: "ID",
       dataIndex: 'id',
-      width: 48,
       hideInSearch: true,
-      hideInDescriptions: true,
       editable: false,
+      width: 48,
       render: (val, record) => {
         return (
-          <Button
+          <a
             type="link"
             onClick={() => {
               window.open(record.href)
             }}
           >
             {val}
-          </Button>
+          </a>
         );
       },
     },
@@ -160,7 +159,7 @@ const ArticleList = () => {
       dataIndex: 'option',
       valueType: 'option',
       render: (val, record, _, action) => [
-        <Button
+        <a
           key="detail"
           type="link"
           onClick={() => {
@@ -169,8 +168,8 @@ const ArticleList = () => {
           }}
         >
           查看
-        </Button>,
-        <Button
+        </a>,
+        <a
           key="edit"
           type="link"
           onClick={() => {
@@ -178,8 +177,8 @@ const ArticleList = () => {
           }}
         >
           快速编辑
-        </Button>,
-        <Button
+        </a>,
+        <a
           key="edit"
           type="link"
           onClick={() => {
@@ -187,7 +186,7 @@ const ArticleList = () => {
           }}
         >
           编辑
-        </Button>
+        </a>
       ],
     },
   ];

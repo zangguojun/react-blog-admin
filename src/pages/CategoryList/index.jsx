@@ -55,9 +55,11 @@ const CategoryList = () => {
 
   const columns = [
     {
+      title: "ID",
       dataIndex: 'id',
       hideInSearch: true,
       editable: false,
+      width: 48,
     },
     {
       title: "分类名",
@@ -82,7 +84,7 @@ const CategoryList = () => {
       dataIndex: 'option',
       valueType: 'option',
       render: (val, record, _, action) => [
-        <Button
+        <a
           type="link"
           key="edit"
           onClick={() => {
@@ -90,7 +92,7 @@ const CategoryList = () => {
           }}
         >
           编辑
-        </Button>
+        </a>
       ],
     },
   ];

@@ -55,9 +55,11 @@ const ChangelogList = () => {
 
   const columns = [
     {
+      title: "ID",
       dataIndex: 'id',
       hideInSearch: true,
       editable: false,
+      width: 48,
     },
     {
       title: '创建时间',
@@ -99,7 +101,7 @@ const ChangelogList = () => {
       dataIndex: 'option',
       valueType: 'option',
       render: (val, record, _, action) => [
-        <Button
+        <a
           type="link"
           key="edit"
           onClick={() => {
@@ -107,7 +109,7 @@ const ChangelogList = () => {
           }}
         >
           编辑
-        </Button>
+        </a>
       ],
     },
   ];

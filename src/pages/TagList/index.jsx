@@ -55,9 +55,11 @@ const TagList = () => {
 
   const columns = [
     {
+      title: "ID",
       dataIndex: 'id',
       hideInSearch: true,
       editable: false,
+      width: 48,
     },
     {
       title: "标签名",
@@ -82,7 +84,7 @@ const TagList = () => {
       dataIndex: 'option',
       valueType: 'option',
       render: (val, record, _, action) => [
-        <Button
+        <a
           type="link"
           key="edit"
           onClick={() => {
@@ -90,7 +92,7 @@ const TagList = () => {
           }}
         >
           编辑
-        </Button>
+        </a>
       ],
     },
   ];

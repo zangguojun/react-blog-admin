@@ -55,9 +55,11 @@ const LinkList = () => {
 
   const columns = [
     {
+      title: "ID",
       dataIndex: 'id',
       hideInSearch: true,
       editable: false,
+      width: 48,
     },
     {
       dataIndex: 'avatar',
@@ -98,7 +100,7 @@ const LinkList = () => {
       dataIndex: 'option',
       valueType: 'option',
       render: (val, record, _, action) => [
-        <Button
+        <a
           type="link"
           key="edit"
           onClick={() => {
@@ -106,7 +108,7 @@ const LinkList = () => {
           }}
         >
           编辑
-        </Button>
+        </a>
       ],
     },
   ];

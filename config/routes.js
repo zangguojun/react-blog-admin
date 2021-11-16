@@ -25,12 +25,6 @@ export default [
     component: './Welcome',
   },
   {
-    path: '/list',
-    name: '列表页',
-    icon: 'table',
-    component: './TableList',
-  },
-  {
     path: '/article',
     name: '文章',
     icon: 'table',
