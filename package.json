@@ -48,11 +48,13 @@
   ],
   "dependencies": {
     "@ant-design/icons": "^4.5.0",
+    "@ant-design/pro-card": "^1.18.1",
     "@ant-design/pro-descriptions": "^1.6.8",
     "@ant-design/pro-form": "^1.18.3",
     "@ant-design/pro-layout": "^6.15.3",
     "@ant-design/pro-table": "^2.57.1",
     "@umijs/route-utils": "^1.0.36",
+    "ahooks": "^3.0.0-alpha.7",
     "antd": "^4.16.13",
     "classnames": "^2.2.6",
     "highlight.js": "^11.3.1",
