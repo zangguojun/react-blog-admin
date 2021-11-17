@@ -27,31 +27,35 @@ export default [
   {
     path: '/article',
     name: '文章',
-    icon: 'table',
+    icon: 'profile',
     component: './ArticleList',
+  },
+  {
+    path: '/article-detail/:id',
+    component: './ArticleDetail',
   },
   {
     path: '/tag',
     name: '标签',
-    icon: 'table',
+    icon: 'tags',
     component: './TagList',
   },
   {
     path: '/category',
     name: '分类',
-    icon: 'table',
+    icon: 'paperClip',
     component: './CategoryList',
   },
   {
     path: '/changelog',
     name: '建站日志',
-    icon: 'table',
+    icon: 'file',
     component: './ChangelogList',
   },
   {
     path: '/link',
     name: '友链',
-    icon: 'table',
+    icon: 'link',
     component: './LinkList',
   },
   {
@@ -61,12 +65,6 @@ export default [
     access: 'canAdmin',
     component: './Admin',
     routes: [
-      {
-        path: '/admin/sub-page',
-        name: '二级页',
-        icon: 'smile',
-        component: './Welcome',
-      },
       {
         component: './404',
       },

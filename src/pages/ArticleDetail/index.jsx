@@ -1,11 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card } from 'antd';
+import { useParams } from 'umi';
+import ProDescriptions from '@ant-design/pro-descriptions';
 import { marked } from 'marked'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/magula.css';
+import { article } from '@/services/article';
 
-const DetailCard = (props) => {
-  const { } = props
+const DetailCard = () => {
+  const { id } = useParams()
+  const formItemLayout = {
+    labelCol: { span: 4 },
+    wrapperCol: { span: 14 },
+  }
+
+  const [articleDetail, setArticleDetail] = useState()
+  useEffect(() => {
+    article({ id }).then(res => {
+      setArticleDetail(res)
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   // 配制marked和highlight
   useEffect(() => {
     // 配置highlight
@@ -25,18 +40,30 @@ const DetailCard = (props) => {
   }, []);
 
   return (
-    <Card>
-      <div
-        className="meContent markdownStyle"
-        dangerouslySetInnerHTML={{
-          __html: marked().replace(
-            /<pre>/g,
-            "<pre id='hljs'>"
-          ),
-        }}
-      />
-    </Card>
+    // <ProDescriptions
+    //   column={1}
+    //   title={currentRow?.title}
+    //   request={async () => ({
+    //     data: currentRow || {},
+    //   })}
+    //   params={{
+    //     id: currentRow?.name,
+    //   }}
+    //   columns={columns}
+    // />
+    ''
   );
 };
 
 export default DetailCard;
+{/* <Card>
+  <div
+    className="meContent markdownStyle"
+    dangerouslySetInnerHTML={{
+      __html: marked('+ 你').replace(
+        /<pre>/g,
+        "<pre id='hljs'>"
+      ),
+    }}
+  />
+</Card> */}
