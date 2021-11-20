@@ -8,21 +8,6 @@ import { article, addArticle, updateArticle, removeArticle } from '@/services/ar
 import { tag } from '@/services/tag';
 import { category } from '@/services/category';
 
-const handleAdd = async (fields) => {
-  const hide = message.loading('添加中');
-
-  try {
-    await addArticle({ ...fields });
-    hide();
-    message.success('添加成功');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('添加失败，请重试');
-    return false;
-  }
-};
-
 const handleUpdate = async (fields) => {
   const hide = message.loading('修改中');
   try {
@@ -62,7 +47,7 @@ const ArticleList = () => {
 
   useEffect(() => {
     tag().then(res => {
-      setTagList(res?.data?.map(item => ({ label: item?.name, value: item?.id })))
+      setTagList(res?.data?.map(item => ({ label: item?.name, value: item?.id + '' })))
     })
     category().then(res => {
       setCategoryList(res?.data?.map(item => ({ label: item?.name, value: item?.id })))
@@ -118,20 +103,14 @@ const ArticleList = () => {
         return (
           <Space>
             {
-              val.map(i => <Tag color="cyan" key={i} >{i}</Tag>)
+              Array.isArray(val) && val.map(i => <Tag color="cyan" key={i} value={i}>{tagList.find(v => v.value == i)?.label}</Tag>)
             }
           </Space>
         )
       },
       renderFormItem: (item, { defaultRender, ...rest }, form) => {
         return (
-          <Select
-            mode="tags"
-          >
-            {
-              tagList.map(item => <Select.Option key={item.value} value={item.value}>{item.label}</Select.Option>)
-            }
-          </Select>
+          <Select mode="tags" options={tagList} />
         );
       },
     },
@@ -198,7 +177,7 @@ const ArticleList = () => {
           key="edit"
           type="link"
           onClick={() => {
-            window.open('')
+            window.location.href = '/article-detail/' + record.id
           }}
         >
           编辑

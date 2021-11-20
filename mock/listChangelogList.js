@@ -9,7 +9,7 @@ const genList = (current, pageSize) => {
     changelogListDataSource.push({
       id: index,
       log: 'React 学习笔记',
-      createdAt: moment(),
+      createdAt: moment().format("YYYY-MM-DD HH:mm"),
     });
   }
 
@@ -110,7 +110,7 @@ function postChangelog(req, res, u, b) {
         const newChangelog = {
           id: changelogListDataSource.length,
           log,
-          createdAt: moment(),
+          createdAt: moment().format("YYYY-MM-DD HH:mm"),
         };
         changelogListDataSource.unshift(newChangelog);
         return res.json(newChangelog);

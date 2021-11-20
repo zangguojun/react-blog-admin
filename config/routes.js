@@ -35,6 +35,10 @@ export default [
     component: './ArticleDetail',
   },
   {
+    path: '/article-detail',
+    component: './ArticleDetail',
+  },
+  {
     path: '/tag',
     name: '标签',
     icon: 'tags',
