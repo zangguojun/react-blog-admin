@@ -115,19 +115,19 @@ export default {
     const { password, email } = req.body;
     await waitTime(2000);
 
-    if (password === 'Luo123456+++' && email === 'buchiyu') {
+    if (password === 'buchiyu' && email === 'buchiyu') {
       res.send({
         success: true,
-        data: { currentAuthority: 'admin' }
+        data: { currentAuthority: 'admin' },
       });
       access = 'admin';
       return;
     }
 
-    if (password === 'ant.design' && email === 'user') {
+    if (password === 'buchiyu' && email === 'user') {
       res.send({
         success: true,
-        data: { currentAuthority: 'user' }
+        data: { currentAuthority: 'user' },
       });
       access = 'user';
       return;
@@ -136,7 +136,7 @@ export default {
     res.send({
       success: false,
       data: { currentAuthority: 'guest' },
-      errorMessage: '用户名或密码错误'
+      errorMessage: '用户名或密码错误',
     });
     access = 'guest';
   },
