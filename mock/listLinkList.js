@@ -6,10 +6,10 @@ const genList = (current, pageSize) => {
     const index = (current - 1) * 10 + i;
     linkListDataSource.push({
       id: index,
-      avatar: 'https://jack-img.oss-cn-hangzhou.aliyuncs.com/img/20210625190355.gif',
+      avatar: 'https://www.ltbuchiyu.top/wp-content/uploads/2021/03/pic.png',
       name: 'React 学习笔记',
-      link: 'https://www.nesxc.com/',
-      desc: '青石落晚巷 故人未还乡',
+      link: 'https://github.com/zangguojun',
+      desc: 'Buchiyu',
     });
   }
 
@@ -122,8 +122,8 @@ function postLink(req, res, u, b) {
         let newLink = {};
         linkListDataSource = linkListDataSource.map((item) => {
           if (item.id === id) {
-            newLink = { ...item, ...rest, };
-            return { ...item, ...rest, };
+            newLink = { ...item, ...rest };
+            return { ...item, ...rest };
           }
           return item;
         });

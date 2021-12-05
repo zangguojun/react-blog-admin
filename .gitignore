@@ -27,6 +27,7 @@ pnpm-lock.yaml
 *.log
 functions/*
 .temp/**
+.vscode
 
 # umi
 .umi
